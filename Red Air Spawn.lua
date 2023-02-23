@@ -4,4 +4,5 @@ CAPSpawner:InitLimit(10) -- 10 groups alive at once
 CAPSpawner:InitRandomizeZones({ZONE:New('Zone-1'), ZONE:New('Zone-2')})
 
 local spawn_count = 0
-CAPSpawner:OnSpawnGroup()
+
+CAPSpawner:OnSpawnGroup(function (g) end)
