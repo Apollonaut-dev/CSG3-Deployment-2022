@@ -1,4 +1,4 @@
--- local rus_MAX_SIMULTANEOUS_INTERCEPTS = 5
+local rus_MAX_SIMULTANEOUS_INTERCEPTS = 3
 -- local rus_MAX_SIMULTANEOUS_CAS = 2
 
 local AWACSCapability = { AUFTRAG.Type.ALERT5, AUFTRAG.Type.AWACS }
@@ -23,12 +23,12 @@ local rus = {}
 rus.AWACSAnchors = SET_ZONE:New():FilterPrefixes( 'rus_AWACS_TRACK' ):FilterOnce()
 rus.TankerAnchors = SET_ZONE:New():FilterPrefixes( 'rus_TANKER_TRACK' ):FilterOnce()
 rus.CAPAnchors = SET_ZONE:New():FilterPrefixes( 'rus_CAP_TRACK' ):FilterOnce()
--- rus.QRFZones = SET_ZONE:New():FilterPrefixes( 'rus_QRF_ZONE' ):FilterOnce()
+rus.QRFZones = SET_ZONE:New():FilterPrefixes( 'rus_QRF_ZONE' ):FilterOnce()
 
 rus.Airwings = {}
 rus.Squadrons = {}
 -- Mozdok
-local WH = STATIC:FindByName('rus_WH-1')
+local WH = STATIC:FindByName('rus_WH-1', false)
 if WH then
   rus.Airwings.Mozdok = AIRWING:New( 'rus_WH-1', '1st Airwing' )
   rus.Squadrons.Mozdok = {}
@@ -42,7 +42,7 @@ if WH then
 
   rus.Squadrons.Mozdok.C2C = SQUADRON:New( 'T_rus_AWACS', 20, '1st Elint SQ' )
   rus.Squadrons.Mozdok.C2C:AddMissionCapability( AWACSCapability, 100 )
-  rus.Squadrons.Mozdok.C2C:SetMissionRange( 400 )
+  rus.Squadrons.Mozdok.C2C:SetMissionRange( 500 )
   rus.Squadrons.Mozdok.C2C:SetFuelLowRefuel( true )
   rus.Squadrons.Mozdok.C2C:SetTurnoverTime( 60, 720 )
   rus.Squadrons.Mozdok.C2C:SetRadio( 264 )
@@ -89,7 +89,7 @@ if WH then
   rus.Airwings.Mozdok:AddSquadron( rus.Squadrons.Mozdok.Su25T )
 end
 -- Maykop
-local WH = STATIC:FindByName('rus_WH-2')
+local WH = STATIC:FindByName('rus_WH-2', false)
 if WH then
   rus.Airwings.Maycop = AIRWING:New( 'rus_WH-2', '2nd Airwing' )
   rus.Squadrons.Maycop = {}
@@ -124,7 +124,7 @@ if WH then
 
 end
 -- Vaziani
-local WH = STATIC:FindByName('rus_WH-3')
+local WH = STATIC:FindByName('rus_WH-3', false)
 if WH then
   rus.Airwings.Vaziani = AIRWING:New( 'rus_WH-3', '3rd Airwing' )
   rus.Squadrons.Vaziani = {}
@@ -152,14 +152,14 @@ if WH then
   rus.Airwings.Vaziani:AddSquadron( rus.Squadrons.Vaziani.MiG31 )
   
   rus.Squadrons.Vaziani.Su30 = SQUADRON:New( 'T_rus_Su30', 20, '15th Fighter SQ' )
-  rus.Squadrons.Vaziani.Su30:AddMissionCapability( Su30Capability, 100 )
+  rus.Squadrons.Vaziani.Su30:AddMissionCapability( Su30Capability, 50 )
   rus.Squadrons.Vaziani.Su30:SetMissionRange( 250 )
   rus.Squadrons.Vaziani.Su30:SetFuelLowRefuel( true )
   rus.Airwings.Vaziani:AddSquadron( rus.Squadrons.Vaziani.Su30 )
 
 end
 -- Anapa
-local WH = STATIC:FindByName('rus_WH-4')
+local WH = STATIC:FindByName('rus_WH-4', false)
 if WH then
   rus.Airwings.Anapa = AIRWING:New( 'rus_WH-4', '4th Airwing' )
   rus.Squadrons.Anapa = {}
@@ -181,55 +181,19 @@ if WH then
   rus.Airwings.Anapa:AddSquadron( rus.Squadrons.Anapa.MiG29 )
   
   rus.Squadrons.Anapa.MiG31 = SQUADRON:New( 'T_rus_MiG31', 20, '18th Fighter SQ' )
-  rus.Squadrons.Anapa.MiG31:AddMissionCapability( MiG31Capability, 100 )
+  rus.Squadrons.Anapa.MiG31:AddMissionCapability( MiG31Capability, 99 )
   rus.Squadrons.Anapa.MiG31:SetMissionRange( 300 )
   rus.Squadrons.Anapa.MiG31:SetFuelLowRefuel( true )
   rus.Airwings.Anapa:AddSquadron( rus.Squadrons.Anapa.MiG31 )
   
   rus.Squadrons.Anapa.Su30 = SQUADRON:New( 'T_rus_Su30', 20, '19th Fighter SQ' )
-  rus.Squadrons.Anapa.Su30:AddMissionCapability( Su30Capability, 100 )
+  rus.Squadrons.Anapa.Su30:AddMissionCapability( Su30Capability, 99 )
   rus.Squadrons.Anapa.Su30:SetMissionRange( 300 )
   rus.Squadrons.Anapa.Su30:SetFuelLowRefuel( true )
   rus.Airwings.Anapa:AddSquadron( rus.Squadrons.Anapa.Su30 )
-
-end
--- Kutaisi
-local WH = STATIC:FindByName('rus_WH-5')
-if WH then
-  rus.Airwings.Kutaisi = AIRWING:New( 'rus_WH-5', '5th Airwing' )
-  rus.Squadrons.Kutaisi = {}
-  rus.Airwings.Kutaisi:NewPayload( 'P_rus_Su27', -1, Su27Capability, 100 )
-  rus.Airwings.Kutaisi:NewPayload( 'P_rus_Su30', -1, Su30Capability, 100 )
-  rus.Airwings.Kutaisi:NewPayload( 'P_rus_MiG31', -1, MiG31Capability, 100 )
-  rus.Airwings.Kutaisi:NewPayload( 'P_rus_MiG29', -1, MiG29Capability, 100 )
-
-  rus.Squadrons.Kutaisi.Su27 = SQUADRON:New( 'T_rus_Su27', 20, '16th Fighter SQ' )
-  rus.Squadrons.Kutaisi.Su27:AddMissionCapability( Su33Capability, 100 )
-  rus.Squadrons.Kutaisi.Su27:SetMissionRange( 250 )
-  rus.Squadrons.Kutaisi.Su27:SetFuelLowRefuel( true )
-  rus.Airwings.Kutaisi:AddSquadron( rus.Squadrons.Kutaisi.Su27 )
-  
-  rus.Squadrons.Kutaisi.MiG29 = SQUADRON:New( 'T_rus_MiG29', 20, '17th Fighter SQ' )
-  rus.Squadrons.Kutaisi.MiG29:AddMissionCapability( MiG29Capability, 100 )
-  rus.Squadrons.Kutaisi.MiG29:SetMissionRange( 250 )
-  rus.Squadrons.Kutaisi.MiG29:SetFuelLowRefuel( true )
-  rus.Airwings.Kutaisi:AddSquadron( rus.Squadrons.Kutaisi.MiG29 )
-  
-  rus.Squadrons.Kutaisi.MiG31 = SQUADRON:New( 'T_rus_MiG31', 20, '18th Fighter SQ' )
-  rus.Squadrons.Kutaisi.MiG31:AddMissionCapability( MiG31Capability, 100 )
-  rus.Squadrons.Kutaisi.MiG31:SetMissionRange( 250 )
-  rus.Squadrons.Kutaisi.MiG31:SetFuelLowRefuel( true )
-  rus.Airwings.Kutaisi:AddSquadron( rus.Squadrons.Kutaisi.MiG31 )
-  
-  rus.Squadrons.Kutaisi.Su30 = SQUADRON:New( 'T_rus_Su30', 20, '19th Fighter SQ' )
-  rus.Squadrons.Kutaisi.Su30:AddMissionCapability( Su30Capability, 100 )
-  rus.Squadrons.Kutaisi.Su30:SetMissionRange( 250 )
-  rus.Squadrons.Kutaisi.Su30:SetFuelLowRefuel( true )
-  rus.Airwings.Kutaisi:AddSquadron( rus.Squadrons.Kutaisi.Su30 )
-
 end
 -- Batumi
-local WH = STATIC:FindByName('rus_WH-6')
+local WH = STATIC:FindByName('rus_WH-6', false)
 if WH then
   rus.Airwings.Batumi = AIRWING:New( 'rus_WH-6', '6th Airwing' )
   rus.Squadrons.Batumi = {}
@@ -256,24 +220,8 @@ if WH then
   rus.Airwings.Batumi:AddSquadron( rus.Squadrons.Batumi.Mi24 )
 
 end
--- Kobuleti
-local WH = STATIC:FindByName('rus_WH-7')
-if WH then
-  rus.Airwings.Kobuleti = AIRWING:New( 'rus_WH-7', '7th Airwing' )
-  rus.Squadrons.Kobuleti = {}
-  rus.Airwings.Kobuleti:NewPayload( 'P_rus_Su25T', -1, Su25Capability, 100 )
-
-  rus.Squadrons.Kobuleti.Su25T = SQUADRON:New( 'T_rus_Su25T', 20, '20th Fighter SQ' )
-  rus.Squadrons.Kobuleti.Su25T:AddMissionCapability( Su25Capability, 100 )
-  rus.Squadrons.Kobuleti.Su25T:SetMissionRange( 150 )
-  rus.Squadrons.Kobuleti.Su25T:SetRadio( 270 )
-  rus.Squadrons.Kobuleti.Su25T:SetFuelLowThreshold( 15 )
-  rus.Airwings.Kobuleti:AddSquadron( rus.Squadrons.Kobuleti.Su25T )
-  
-
-end
 -- Senaki
-local WH = STATIC:FindByName('rus_WH-8')
+local WH = STATIC:FindByName('rus_WH-8', false)
 if WH then
   rus.Airwings.Senaki = AIRWING:New( 'rus_WH-8', '8th Airwing' )
   rus.Squadrons.Senaki = {}
@@ -285,24 +233,8 @@ if WH then
   rus.Squadrons.Senaki.MiG29:SetFuelLowRefuel( true )
   rus.Airwings.Senaki:AddSquadron( rus.Squadrons.Senaki.MiG29 )
 end
-
--- Sukhumi
-local WH = STATIC:FindByName('rus_WH-9')
-if WH then
-  rus.Airwings.Sukhumi = AIRWING:New( 'rus_WH-9', '9th Airwing' )
-  rus.Squadrons.Sukhumi = {}
-  rus.Airwings.Sukhumi:NewPayload( 'P_rus_Su27', -1, Su27Capability, 100 )
-
-  rus.Squadrons.Sukhumi.Su27 = SQUADRON:New( 'T_rus_Su27', 20, '22nd Fighter SQ' )
-  rus.Squadrons.Sukhumi.Su27:AddMissionCapability( Su33Capability, 100 )
-  rus.Squadrons.Sukhumi.Su27:SetMissionRange( 250 )
-  rus.Squadrons.Sukhumi.Su27:SetFuelLowRefuel( true )
-  rus.Airwings.Sukhumi:AddSquadron( rus.Squadrons.Sukhumi.Su27 )
-  
-
-end
 -- Gudata
-local WH = STATIC:FindByName('rus_WH-10')
+local WH = STATIC:FindByName('rus_WH-10', false)
 if WH then
   rus.Airwings.Gudata = AIRWING:New( 'rus_WH-10', '10th Airwing' )
   rus.Squadrons.Gudata = {}
@@ -317,64 +249,8 @@ if WH then
   
 
 end
--- Soganlug
-local WH = STATIC:FindByName('rus_WH-11')
-if WH then
-  rus.Airwings.Soganlug = AIRWING:New( 'rus_WH-11', '11th Airwing' )
-  rus.Squadrons.Soganlug = {}
-  rus.Airwings.Soganlug:NewPayload( 'T_rus_Ka50', -1, Ka50Capability, 100 )
-  rus.Airwings.Soganlug:NewPayload( 'T_rus_Mi28', -1, Mi28Capability, 100 )
-  rus.Airwings.Soganlug:NewPayload( 'T_rus_Mi24', -1, Mi24Capability, 100 )
-
-  rus.Squadrons.Soganlug.Ka50 = SQUADRON:New( 'T_rus_Ka50', 20, '4th Attack SQ' )
-  rus.Squadrons.Soganlug.Ka50:AddMissionCapability( Ka50Capability, 100 )
-  rus.Squadrons.Soganlug.Ka50:SetMissionRange( 50 )
-  rus.Squadrons.Soganlug.Ka50:SetFuelLowRefuel( true )
-  rus.Airwings.Soganlug:AddSquadron( rus.Squadrons.Soganlug.Ka50 )
-  
-  rus.Squadrons.Soganlug.Mi28 = SQUADRON:New( 'T_rus_Mi28', 20, '5th Attack SQ' )
-  rus.Squadrons.Soganlug.Mi28:AddMissionCapability( Mi28Capability, 100 )
-  rus.Squadrons.Soganlug.Mi28:SetMissionRange( 50 )
-  rus.Squadrons.Soganlug.Mi28:SetFuelLowRefuel( true )
-  rus.Airwings.Soganlug:AddSquadron( rus.Squadrons.Soganlug.Mi28 )
-  
-  rus.Squadrons.Soganlug.Mi24 = SQUADRON:New( 'T_rus_Mi24', 20, '6th Attack SQ' )
-  rus.Squadrons.Soganlug.Mi24:AddMissionCapability( Mi24Capability, 100 )
-  rus.Squadrons.Soganlug.Mi24:SetMissionRange( 50 )
-  rus.Squadrons.Soganlug.Mi24:SetFuelLowRefuel( true )
-  rus.Airwings.Soganlug:AddSquadron( rus.Squadrons.Soganlug.Mi24 )
-
-end
--- Gelendzhik
-local WH = STATIC:FindByName('rus_WH-12')
-if WH then
-  rus.Airwings.Gelendzhik = AIRWING:New( 'rus_WH-12', '12th Airwing' )
-  rus.Squadrons.Gelendzhik = {}
-  rus.Airwings.Gelendzhik:NewPayload( 'T_rus_Ka50', -1, Ka50Capability, 100 )
-  rus.Airwings.Gelendzhik:NewPayload( 'T_rus_Mi28', -1, Mi28Capability, 100 )
-  rus.Airwings.Gelendzhik:NewPayload( 'T_rus_Mi24', -1, Mi24Capability, 100 )
-
-  rus.Squadrons.Gelendzhik.Ka50 = SQUADRON:New( 'T_rus_Ka50', 20, '7th Attack SQ' )
-  rus.Squadrons.Gelendzhik.Ka50:AddMissionCapability( Ka50Capability, 100 )
-  rus.Squadrons.Gelendzhik.Ka50:SetMissionRange( 50 )
-  rus.Squadrons.Gelendzhik.Ka50:SetFuelLowRefuel( true )
-  rus.Airwings.Gelendzhik:AddSquadron( rus.Squadrons.Gelendzhik.Ka50 )
-  
-  rus.Squadrons.Gelendzhik.Mi28 = SQUADRON:New( 'T_rus_Mi28', 20, '8th Attack SQ' )
-  rus.Squadrons.Gelendzhik.Mi28:AddMissionCapability( Mi28Capability, 100 )
-  rus.Squadrons.Gelendzhik.Mi28:SetMissionRange( 50 )
-  rus.Squadrons.Gelendzhik.Mi28:SetFuelLowRefuel( true )
-  rus.Airwings.Gelendzhik:AddSquadron( rus.Squadrons.Gelendzhik.Mi28 )
-  
-  rus.Squadrons.Gelendzhik.Mi24 = SQUADRON:New( 'T_rus_Mi24', 20, '9th Attack SQ' )
-  rus.Squadrons.Gelendzhik.Mi24:AddMissionCapability( Mi24Capability, 100 )
-  rus.Squadrons.Gelendzhik.Mi24:SetMissionRange( 50 )
-  rus.Squadrons.Gelendzhik.Mi24:SetFuelLowRefuel( true )
-  rus.Airwings.Gelendzhik:AddSquadron( rus.Squadrons.Gelendzhik.Mi24 )
-
-end
 -- Novorossiysk
-local WH = STATIC:FindByName('rus_WH-13')
+local WH = STATIC:FindByName('rus_WH-13', false)
 if WH then
   rus.Airwings.Novorossiysk = AIRWING:New( 'rus_WH-13', '13th Airwing' )
   rus.Squadrons.Novorossiysk = {}
@@ -390,22 +266,28 @@ if WH then
 
 end
 -- Krymsk
-local WH = STATIC:FindByName('rus_WH-14')
+local WH = STATIC:FindByName('rus_WH-14', false)
 if WH then
   rus.Airwings.Krymsk = AIRWING:New( 'rus_WH-14', '14th Airwing' )
   rus.Squadrons.Krymsk = {}
-  rus.Airwings.Krymsk:NewPayload( 'P_rus_Su33', -1, Su33Capability, 100 )
+  rus.Airwings.Krymsk:NewPayload( 'P_rus_Su30', -1, Su30Capability, 100 )
+  rus.Airwings.Krymsk:NewPayload( 'P_rus_MiG29-1', -1, MiG29Capability, 100 )
 
-  rus.Squadrons.Krymsk.Su33 = SQUADRON:New( 'T_rus_Su33', 20, '25th Fighter SQ' )
-  rus.Squadrons.Krymsk.Su33:AddMissionCapability( Su33Capability, 100 )
-  rus.Squadrons.Krymsk.Su33:SetMissionRange( 250 )
-  rus.Squadrons.Krymsk.Su33:SetFuelLowRefuel( true )
-  rus.Airwings.Krymsk:AddSquadron( rus.Squadrons.Krymsk.Su33 )
+  rus.Squadrons.Krymsk.Su30 = SQUADRON:New( 'T_rus_Su30', 20, '25th Fighter SQ' )
+  rus.Squadrons.Krymsk.Su30:AddMissionCapability( Su30Capability, math.random(98, 100) )
+  rus.Squadrons.Krymsk.Su30:SetMissionRange( 250 )
+  rus.Squadrons.Krymsk.Su30:SetFuelLowRefuel( true )
+  rus.Airwings.Krymsk:AddSquadron( rus.Squadrons.Krymsk.Su30 )
   
+  rus.Squadrons.Krymsk.MiG29 = SQUADRON:New( 'T_rus_MiG29', 20, '17th Fighter SQ' )
+  rus.Squadrons.Krymsk.MiG29:AddMissionCapability( MiG29Capability, math.random(98, 100) )
+  rus.Squadrons.Krymsk.MiG29:SetMissionRange( 300 )
+  rus.Squadrons.Krymsk.MiG29:SetFuelLowRefuel( true )
+  rus.Airwings.Krymsk:AddSquadron( rus.Squadrons.Krymsk.MiG29 )
 
 end
 -- Krasnodar
-local WH = STATIC:FindByName('rus_WH-15')
+local WH = STATIC:FindByName('rus_WH-15', false)
 if WH then
   rus.Airwings.Krasnodar = AIRWING:New( 'rus_WH-15', '15th Airwing' )
   rus.Squadrons.Krasnodar = {}
@@ -420,41 +302,20 @@ if WH then
   rus.Airwings.Krasnodar:AddSquadron( rus.Squadrons.Krasnodar.MiG29 )
   
   rus.Squadrons.Krasnodar.MiG31 = SQUADRON:New( 'T_rus_MiG31', 20, '27th Fighter SQ' )
-  rus.Squadrons.Krasnodar.MiG31:AddMissionCapability( MiG31Capability, 100 )
+  rus.Squadrons.Krasnodar.MiG31:AddMissionCapability( MiG31Capability, 75 )
   rus.Squadrons.Krasnodar.MiG31:SetMissionRange( 300 )
   rus.Squadrons.Krasnodar.MiG31:SetFuelLowRefuel( true )
   rus.Airwings.Krasnodar:AddSquadron( rus.Squadrons.Krasnodar.MiG31 )
   
   rus.Squadrons.Krasnodar.Su30 = SQUADRON:New( 'T_rus_Su30', 20, '28th Fighter SQ' )
-  rus.Squadrons.Krasnodar.Su30:AddMissionCapability( Su30Capability, 100 )
+  rus.Squadrons.Krasnodar.Su30:AddMissionCapability( Su30Capability, 50 )
   rus.Squadrons.Krasnodar.Su30:SetMissionRange( 300 )
   rus.Squadrons.Krasnodar.Su30:SetFuelLowRefuel( true )
   rus.Airwings.Krasnodar:AddSquadron( rus.Squadrons.Krasnodar.Su30 )
 
 end
--- KrasnodarP
-local WH = STATIC:FindByName('rus_WH-16')
-if WH then
-  rus.Airwings.KrasnodarP = AIRWING:New( 'rus_WH-16', '16th Airwing' )
-  rus.Squadrons.KrasnodarP = {}
-  rus.Airwings.KrasnodarP:NewPayload('P_rus_Su24', -1, Su24Capability, 100)
-  rus.Airwings.KrasnodarP:NewPayload( 'P_rus_Su34', -1, Su34Capability, 100 )
-  
-  rus.Squadrons.KrasnodarP.Su24 = SQUADRON:New( 'T_rus_Su24', 20, '29th Fighter SQ' )
-  rus.Squadrons.KrasnodarP.Su24:AddMissionCapability( Su24Capability, 100 )
-  rus.Squadrons.KrasnodarP.Su24:SetMissionRange( 500 )
-  rus.Squadrons.KrasnodarP.Su24:SetFuelLowRefuel( true )
-  rus.Airwings.KrasnodarP:AddSquadron( rus.Squadrons.KrasnodarP.Su24 )
-  
-  rus.Squadrons.KrasnodarP.Su34 = SQUADRON:New( 'T_rus_Su34', 20, '30th Fighter SQ' )
-  rus.Squadrons.KrasnodarP.Su34:AddMissionCapability( Su34Capability, 100 )
-  rus.Squadrons.KrasnodarP.Su34:SetMissionRange( 300 )
-  rus.Squadrons.KrasnodarP.Su34:SetFuelLowRefuel( true )
-  rus.Airwings.Krasnodar:AddSquadron( rus.Squadrons.KrasnodarP.Su34 )
-  
-end
 -- Beslan
-local WH = STATIC:FindByName('rus_WH-17')
+local WH = STATIC:FindByName('rus_WH-17', false)
 if WH then
   rus.Airwings.Beslan = AIRWING:New( 'rus_WH-17', '17th Airwing' )
   rus.Squadrons.Beslan = {}
@@ -482,7 +343,7 @@ if WH then
 
 end
 -- Nalchik
-local WH = STATIC:FindByName('rus_WH-18')
+local WH = STATIC:FindByName('rus_WH-18', false)
 if WH then
   rus.Airwings.Nalchik = AIRWING:New( 'rus_WH-18', '18th Airwing' )
   rus.Squadrons.Nalchik = {}
@@ -494,11 +355,9 @@ if WH then
   rus.Squadrons.Nalchik.Su25T:SetRadio( 270 )
   rus.Squadrons.Nalchik.Su25T:SetFuelLowThreshold( 15 )
   rus.Airwings.Nalchik:AddSquadron( rus.Squadrons.Nalchik.Su25T )
-  
-
 end
 -- Mineralnye
-local WH = STATIC:FindByName('rus_WH-19')
+local WH = STATIC:FindByName('rus_WH-19', false)
 if WH then
   rus.Airwings.Mineralnye = AIRWING:New( 'rus_WH-19', '19th Airwing' )
   rus.Squadrons.Mineralnye = {}
@@ -523,40 +382,60 @@ if WH then
   rus.Squadrons.Mineralnye.Su27:SetMissionRange( 250 )
   rus.Squadrons.Mineralnye.Su27:SetFuelLowRefuel( true )
   rus.Airwings.Mineralnye:AddSquadron( rus.Squadrons.Mineralnye.Su27 )
+end
+-- Sochi
+local WH = STATIC:FindByName('rus_WH-16', false)
+if WH then
+  rus.Airwings.Sochi = AIRWING:New( 'rus_WH-16', '16th Airwing' )
+  rus.Squadrons.Sochi = {}
+  rus.Airwings.Sochi:NewPayload( 'P_rus_Su30', -1, Su30Capability, 100 )
+  rus.Airwings.Sochi:NewPayload( 'P_rus_MiG31', -1, MiG31Capability, 100 )
+  rus.Airwings.Sochi:NewPayload( 'P_rus_Su27', -1, Su27Capability, 100 )
+  rus.Airwings.Sochi:NewPayload( 'P_rus_MiG29', -1, Su27Capability, 100 )
 
+  rus.Squadrons.Sochi.Su30 = SQUADRON:New( 'T_rus_Su30', 20, '60th Fighter SQ' )
+  rus.Squadrons.Sochi.Su30:AddMissionCapability( Su30Capability, 99 )
+  rus.Squadrons.Sochi.Su30:SetMissionRange( 300 )
+  rus.Squadrons.Sochi.Su30:SetFuelLowRefuel( true )
+  rus.Airwings.Sochi:AddSquadron( rus.Squadrons.Sochi.Su30 )
+  
+  rus.Squadrons.Sochi.MiG31 = SQUADRON:New( 'T_rus_MiG31', 20, '61st Fighter SQ' )
+  rus.Squadrons.Sochi.MiG31:AddMissionCapability( MiG31Capability, 100 )
+  rus.Squadrons.Sochi.MiG31:SetMissionRange( 300 )
+  rus.Squadrons.Sochi.MiG31:SetFuelLowRefuel( true )
+  rus.Airwings.Sochi:AddSquadron( rus.Squadrons.Sochi.MiG31 )
+  
+  rus.Squadrons.Sochi.Su27 = SQUADRON:New( 'T_rus_Su27', math.random(95, 100), '62nd Fighter SQ' )
+  rus.Squadrons.Sochi.Su27:AddMissionCapability( Su33Capability, 100 )
+  rus.Squadrons.Sochi.Su27:SetMissionRange( 250 )
+  rus.Squadrons.Sochi.Su27:SetFuelLowRefuel( true )
+  rus.Airwings.Sochi:AddSquadron( rus.Squadrons.Sochi.Su27 )
+
+  rus.Squadrons.Sochi.MiG29 = SQUADRON:New( 'T_rus_MiG29', 20, '63rd Fighter SQ' )
+  rus.Squadrons.Sochi.MiG29:AddMissionCapability( MiG29Capability, 100 )
+  rus.Squadrons.Sochi.MiG29:SetMissionRange( 250 )
+  rus.Squadrons.Sochi.MiG29:SetFuelLowRefuel( true )
+  rus.Airwings.Sochi:AddSquadron( rus.Squadrons.Sochi.MiG29 )
 end
 
 for _, A in pairs( rus.Airwings ) do
   function A:OnAfterFlightOnMission( From, Event, To, Flightgroup, Mission )
     local flightgroup = Flightgroup
-    -- env.info('flightgroup' .. flatdump(flightgroup))
     local mission = Mission
   
     local escortAWACS1
-    local escortAWACS2
+    -- local escortAWACS2
     if mission:GetType() == AUFTRAG.Type.AWACS then
       local Escortee = flightgroup:GetGroup()
-      Escortee:SetCommandImmortal(true)
-      -- local escortAWACS1 = AUFTRAG:NewESCORT( Escortee, POINT_VEC3:New( -100, 0, 200 ), 60, nil )
       escortAWACS1 = AUFTRAG:NewESCORT( Escortee, POINT_VEC3:New( -100, 0, 200 ), 60, nil )
       escortAWACS1:SetMissionRange( 250 )
       escortAWACS1:SetEngageDetected(50)
       escortAWACS1:SetRequiredAssets( 1 )
-      -- escortAWACS1:SetRepeat(1)
-      -- local escortAWACS2 = AUFTRAG:NewESCORT( Escortee, POINT_VEC3:New( -100, 0, -200 ), 60, nil )
-      escortAWACS2 = AUFTRAG:NewESCORT( Escortee, POINT_VEC3:New( -100, 0, -200 ), 60, nil )
-      escortAWACS2:SetMissionRange( 250 )
-      escortAWACS2:SetEngageDetected(50)
-      escortAWACS2:SetRequiredAssets( 1 )
-      -- escortAWACS2:SetRepeat(1)
+      escortAWACS1:SetRepeat(1)
       function escortAWACS1:OnBeforeRepeat()
-        env.info('before repeat')
-      end
-      function escortAWACS2:OnBeforeRepeat()
-        env.info('before repeat')
+        env.info('Repeating AWACS Escort')
       end
       rusChief:AddMission( escortAWACS1 )
-      rusChief:AddMission( escortAWACS2 )
     end
 
     if mission:GetType() == AUFTRAG.Type.ESCORT then
@@ -578,7 +457,7 @@ for _, A in pairs( rus.Airwings ) do
       self:ClearToLand( 5 ) 
       if mission:GetType() == AUFTRAG.Type.AWACS then
         escortAWACS1:Cancel()
-        escortAWACS2:Cancel()
+        -- escortAWACS2:Cancel()
       end
     end
   end
@@ -591,12 +470,10 @@ rusChief:Start()
 rus.AWACSAnchors:ForEachZone(function (ep) 
   env.info('creating AWACS mission for ' .. ep:GetName())
   local dir, leg, alt = string.match( ep:GetName(), "rus_AWACS_TRACK%-?%d?_?(%w*)_?(%w*)_?(%w*)$" )
-  env.info('alt: '.. alt.. 'type: '..type(alt))
   if dir == '' then dir = 0 else dir = tonumber(dir) end
   if leg == '' then leg = 20 else leg = tonumber(leg) end
   if alt == '' then alt = 1000 * math.random( 26, 32 ) else alt = tonumber(alt) end
-  -- env.info('new alt: '.. tostring(alt == '')..tostring(not alt)..tostring(tonumber(alt)))
-  local mission = AUFTRAG:NewAWACS(ep:GetCoordinate(), alt, UTILS.KnotsToAltKIAS(250, alt), dir, leg)
+  local mission = AUFTRAG:NewAWACS(ep:GetCoordinate(), alt, 275, dir, leg)
   mission:SetRepeat(99)
   -- mission:SetRequiredEscorts(1)
   rusChief:AddMission(mission)
@@ -608,32 +485,66 @@ rus.TankerAnchors:ForEachZone(function (tp)
   if dir == '' then dir = 0 else dir = tonumber(dir) end
   if leg == '' then leg = 20 else leg = tonumber(leg) end
   if alt == '' then alt = 1000 * math.random( 26, 32 ) else alt = tonumber(alt) end
-  env.info('new alt: '.. tostring(alt == '')..tostring(not alt)..tostring(tonumber(alt)))
-  local mission = AUFTRAG:NewTANKER(tp:GetCoordinate(), alt, UTILS.KnotsToAltKIAS(250, alt), dir, leg, 1)
+
+  local mission = AUFTRAG:NewTANKER(tp:GetCoordinate(), alt, 275, dir, leg, 1)
   mission:SetRepeat(99)
   rusChief:AddMission(mission)
 end)
 
-rus.CAPAnchors:ForEachZone( function( cap )
-  env.info( 'creating cap mission for zone: ' .. cap:GetName() )
-  local dir, leg, alt = string.match( cap:GetName(), "rus_CAP_TRACK%-?%d?_?(%w*)_?(%w*)_?(%w*)$" )
-  if dir == '' then dir = 0 else dir = tonumber(dir) end
-  if leg == '' then leg = 20 else leg = tonumber(leg) end
-  if alt == '' then alt = 1000 * math.random( 26, 32 ) else alt = tonumber(alt) end
-  -- local mission = AUFTRAG:NewGCICAP(cap:GetCoordinate(), alt, UTILS.KnotsToAltKIAS(250, alt), dir, leg)
-  local mission = AUFTRAG:NewCAP( cap, alt, UTILS.KnotsToAltKIAS( 220, alt ), cap:GetCoordinate(), dir, leg )
-  -- mission:SetRepeat(999)
-  mission:SetMissionRange( 250 )
-  mission:SetEngageDetected(math.random(60,120))
-  mission:SetPriority( 1, true, 1 )
-  mission:SetRequiredAssets( 2 )
-  mission:SetRepeat( 99 )
+SCHEDULER:New(nil, function () 
+  rus.CAPAnchors:ForEachZone( function( cap )
+    env.info( 'creating cap mission for zone: ' .. cap:GetName() )
+    -- cancel the current mission
+    if cap.capmish then 
+      cap.capmish:SetRepeat(0)
+      cap.capmish:Cancel() 
+    end 
 
-  rusChief:AddMission( mission )
-end )
+    local dir, leg, alt = string.match( cap:GetName(), "rus_CAP_TRACK%-?%d?_?(%w*)_?(%w*)_?(%w*)$" )
+
+    if dir == '' then dir = 0 else dir = tonumber(dir) end
+    if leg == '' then leg = 20 else leg = tonumber(leg) end
+    if alt == '' then alt = 1000 * math.random( 26, 32 ) else alt = tonumber(alt) end
+    
+    -- local mission = AUFTRAG:NewCAP( cap, alt, 275, cap:GetCoordinate(), dir, leg )
+    local mission = AUFTRAG:NewGCICAP(cap:GetCoordinate(), alt, 275, dir, leg)
+    mission:SetMissionRange( 250 )
+    mission:SetEngageDetected(math.random(70,110))
+    mission:SetPriority( 1, true, 1 )
+    mission:SetRequiredAssets( 2 )
+    mission:SetRepeat( 1 )
+    cap.capmish = mission
+
+    function mission:OnBeforeRepeat()
+      env.info('Repeating CAP')
+    end
+    
+    rusChief:AddMission( mission )
+  end )
+end, {}, 30, 7200)
+
+-- rus.CAPAnchors:ForEachZone( function( cap )
+--   env.info( 'creating cap mission for zone: ' .. cap:GetName() )
+--   local dir, leg, alt = string.match( cap:GetName(), "rus_CAP_TRACK%-?%d?_?(%w*)_?(%w*)_?(%w*)$" )
+--   if dir == '' then dir = 0 else dir = tonumber(dir) end
+--   if leg == '' then leg = 20 else leg = tonumber(leg) end
+--   if alt == '' then alt = 1000 * math.random( 26, 32 ) else alt = tonumber(alt) end
+--   local mission = AUFTRAG:NewCAP( cap, alt, 275, cap:GetCoordinate(), dir, leg )
+--   mission:SetMissionRange( 250 )
+--   mission:SetEngageDetected(math.random(70,120))
+--   mission:SetPriority( 1, true, 1 )
+--   mission:SetRequiredAssets( 2 )
+--   mission:SetRepeat( 99 )
+
+--   function mission:OnBeforeRepeat()
+--     env.info('Repeating  CAP Escort')
+--   end
+
+--   rusChief:AddMission( mission )
+-- end )
 
 -- Commented Out V1.1.0 14-2-2023
--- -- setup INTERCEPT scanners
+-- setup INTERCEPT scanners
 -- rus.QRFZoneScanners = {}
 -- function rusChief:OnAfterNewContact( From, Event, To, Contact )
 --   if Contact.ctype == INTEL.Ctype.AIRCRAFT then
@@ -657,9 +568,9 @@ end )
 --             local InterceptMission = AUFTRAG:NewINTERCEPT( Contact.group )
 --             InterceptMission:SetMissionRange( 250 )
 --             InterceptMission:SetPriority( 1, true, 1 )
---             InterceptMission:SetRequiredAssets( math.max( 2, Contact.group:GetSize() ) )
---             InterceptMission:SetRepeatOnFailure( 2 )
---             InterceptMission:SetMissionSpeed( UTILS.KnotsToAltKIAS( speed, height ) )
+--             InterceptMission:SetRequiredAssets( math.max( 1, Contact.group:GetSize() / 2) )
+--             InterceptMission:SetRepeatOnFailure( 1 )
+--             InterceptMission:SetMissionSpeed( 350 )
 --             InterceptMission:SetMissionAltitude( height )
 --             rusChief:AddMission( InterceptMission )
 --             Contact.mission = InterceptMission
@@ -685,4 +596,40 @@ end )
 --   end
 -- end
 
-env.info( 'Red Air started successfully' )
+-- CAPSpawner = SPAWN:New('SevastapolCAPTemplate')
+-- CAPSpawner:InitRandomizeTemplate({'T_rus_Su27', 'T_rus_MiG31', 'T_rus_MiG29', 'T_rus_Su33', 'T_rus_Su30'})
+-- local r1 = math.random(60, 180)
+-- local r2 = math.random(60, 180)
+-- local r3 = math.random(60, 120)
+-- -- random 2 or 3 flights every 3 +/- 1 hour
+-- SCHEDULER:New(nil, function () 
+--   CAPSpawner:SpawnInZone(ZONE:FindByName('CrimeaSpawn'))
+-- end, {}, 30, 60, 0, r1) 
+
+-- SCHEDULER:New(nil, function () 
+--   CAPSpawner:SpawnInZone(ZONE:FindByName('CrimeaSpawn'))
+-- end, {}, 7200, 60, 3600, r2)
+
+-- SCHEDULER:New(nil, function () 
+--   CAPSpawner:SpawnInZone(ZONE:FindByName('CrimeaSpawn'))
+-- end, {}, 14400, 60, 3600, r3)
+
+-- cap_spawn_count = 0
+-- CAPSpawner:OnSpawnGroup(function (g) 
+--   cap_spawn_count = cap_spawn_count + 1
+--   local fg = FLIGHTGROUP:New(g)
+--   local alt = 1000 * math.random( 22, 32 )
+--   local cap
+--   if cap_spawn_count % 2 == 0 then
+--     cap = ZONE:FindByName('rus_CAP_Sevastapol-1')
+--   else
+--     cap = ZONE:FindByName('rus_CAP_Sevastapol-2')
+--   end
+--   local auftrag = AUFTRAG:NewCAP(cap, alt, 275, cap:GetCoordinate(), 90, 40)
+--   auftrag:SetMissionRange( 250 )
+--   auftrag:SetEngageDetected(math.random(80,120))
+--   auftrag:SetPriority( 1, true, 1 )
+--   fg:AddMission(auftrag)
+-- end)
+
+-- env.info( 'Red Air started successfully' )

@@ -3,10 +3,13 @@ _SETTINGS:SetPlayerMenuOff()
 
 CVW17 = AIRWING:New("TDR")
 CVW17:SetTakeoffAir()
+CVW17:SetDespawnAfterHolding()
 CVW17:Start()
 
+-- OPSGROUP:New(GROUP:FindByName('TDR')):SwitchTACAN(71, 'TDR', 'TDR', 'X')
+
 VAW112 = SQUADRON:New("Wizard", 4, "VAW112")
-VAW112:AddMissionCapability({ AUFTRAG.Type.ORBIT, AUFTRAG.Type.AWACS }, 100)
+VAW112:AddMissionCapability({ AUFTRAG.Type.AWACS }, 100)
 VAW112:SetMissionRange(200)
 
 VAW112DL = SQUADRON:New("VAWDL", 4, "VAW112DL")
@@ -14,11 +17,9 @@ VAW112DL:AddMissionCapability({ AUFTRAG.Type.AWACS }, 100)
 VAW112DL:SetMissionRange(200)
 
 VAQ132 = SQUADRON:New("Prowler", 4, "VAQ132")
-VAQ132:AddMissionCapability({ AUFTRAG.Type.ORBIT }, 100)
 VAQ132:SetMissionRange(200)
 
 VS30 = SQUADRON:New("Harpoon", 8, "VS30")
-VS30:AddMissionCapability({ AUFTRAG.Type.ORBIT }, 100)
 VS30:SetMissionRange(200)
 
 CVW17:AddSquadron(VAW112)
@@ -34,7 +35,8 @@ CVW17:NewPayload(GROUP:FindByName("Prowler"), -1, { AUFTRAG.Type.ORBIT }, 100)
 
 function CVW17:OnAfterFlightOnMission( From, Event, To, Flightgroup, Mission )
   local grp = Flightgroup:GetGroup()
-  grp:SetDespawnAfterHolding()
+  Flightgroup:SwitchInvisible( true )
+  
   if string.match(grp:GetName(), "VAQ132") then
     local jammerunit = grp:GetDCSObject():getUnit(1)
     local Jammer = SkynetIADSJammer:create(jammerunit, rusIADS)
@@ -55,10 +57,9 @@ function CVW17:OnAfterFlightOnMission( From, Event, To, Flightgroup, Mission )
     local recon = Elint_blue:addPlatform(elintunit:getName())
   end
 
-  -- TODO removePlatform when returning
-  -- function grp:OnAfterHolding(From, Event, To) 
-  --   Elint_blue:removePlatform(grp:GetName())
-  -- end
+  function grp:OnAfterRTB(From, Event, To) 
+    Elint_blue:removePlatform(grp:GetName())
+  end
 end
 
 -- S-3B Recovery Tanker spawning in air.
@@ -70,6 +71,7 @@ tdrtanker:SetTACAN(55, "AR1")
 tdrtanker:SetAltitude(14000)
 tdrtanker:SetSpeed(UTILS.KnotsToAltKIAS(275, 14000))
 tdrtanker:SetRacetrackDistances(35, -10)
+tdrtanker:SetTakeoffAir()
 tdrtanker:__Start(1)
 
 local tdrrescuehelo = RESCUEHELO:New("TDR", "RescueHeloTDR")
@@ -162,6 +164,7 @@ tartanker:SetTACAN(57, "AR3")
 tartanker:SetAltitude(14000)
 tartanker:SetSpeed(UTILS.KnotsToAltKIAS(275, 14000))
 tartanker:SetRacetrackDistances(35, -10)
+tartanker:SetTakeoffAir()
 tartanker:__Start(1)
 
 local tarrescuehelo = RESCUEHELO:New("Tarawa", "RescueHeloTAR")
@@ -257,4 +260,20 @@ Menu134 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Request Tarawa turn i
 Menu135 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Request Tarawa turn into the wind for 2 hours", Menu13, case135)
 Menu136 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Request Tarawa turn into the wind for 4 hours", Menu13, case136)
 Menu137 = MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Request Tarawa turn into the wind for 8 hours", Menu13, case137)
+
+function BeaconResetter() 
+  local TDRBeacon = UNIT:FindByName('TDR'):GetBeacon()
+  local TWABeacon = UNIT:FindByName('Tarawa'):GetBeacon()
+  TDRBeacon:ActivateTACAN(71, 'X', 'TDR', true)
+  TDRBeacon:ActivateICLS(15)
+  TDRBeacon:ActivateLink4(336)
+  TWABeacon:ActivateTACAN(1, 'X', 'TWA', true)
+end
+-- TIMER:New(BeaconResetter):Start(30, 300) -- apprently breaks courseline
+MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Reset Carrier Beacons", TopMenu1, BeaconResetter)
+
+function NotifyLiveLSO() 
+  MESSAGE:New('ATTN LIVE LSO NOW ON 128.0', 30, "LSO"):ToAll()
+end
+MENU_COALITION_COMMAND:New(coalition.side.BLUE, "Notify Live LSO", nil, NotifyLiveLSO)
 

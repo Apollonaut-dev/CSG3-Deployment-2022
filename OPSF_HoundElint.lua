@@ -1,6 +1,10 @@
 do
   env.info("configuring Hound")
 
+  -- HOUND.Utils.setCustomFormationCallsignOverrides({
+    
+  -- })
+
   Elint_blue = HoundElint:create(coalition.side.BLUE)
 
   Elint_blue:onScreenDebug(false)
@@ -16,6 +20,7 @@ do
   Elint_blue:addSector("Georgian")
   Elint_blue:setZone("Georgian", "Georgian Sector")
   Elint_blue:setTransmitter("all", "Graveley")
+  Elint_blue:disableText('all')
   Elint_blue:reportEWR('all', true)
 
   Elint_blue:systemOn()
@@ -45,12 +50,7 @@ do
   Elint_blue:enableAtis("Eastern", atis_Eastern)
   Elint_blue:enableController("Georgian", controller_Georgian)
   Elint_blue:enableAtis("Georgian", atis_Georgian)
-  Elint_blue:enableText("all")
   Elint_blue:enableNotifier("all", { freq = 280, modulation = "AM", gender = "male" })
-
-  -- SCHEDULER:New(nil, function()
-  --   Elint_blue:dumpIntelBrief()
-  -- end, {}, 60 * 60, 60 * 60)
 
   mist.scheduleFunction(function()
     Elint_blue:dumpIntelBrief()
